@@ -20,11 +20,11 @@ curl http://localhost:5000/api/temperature?limit=5
 
 ## 2. Abrir o projeto Android
 
-O módulo Android está em `andoid/Maze`.
+O módulo Android está em `android/Maze`.
 
 1. Abre o Android Studio.
 2. Clica em `Open`.
-3. Seleciona a pasta `andoid\Maze`.
+3. Seleciona a pasta `android\Maze`.
 4. Espera o Gradle sincronizar.
 
 ## 3. Configurar o SDK
@@ -36,7 +36,7 @@ Se o Android Studio pedir SDK, instala estas partes no `SDK Manager`:
 - `Android SDK Platform-Tools`
 - `Android Emulator`
 
-Se o projeto não detetar o SDK automaticamente, executa este script na pasta `andoid/Maze`:
+Se o projeto não detetar o SDK automaticamente, executa este script na pasta `android/Maze`:
 
 ```powershell
 .\configure-android-sdk.ps1
@@ -46,7 +46,7 @@ Isto cria ou corrige o ficheiro `local.properties` com o caminho do SDK.
 
 ## 4. Gerar a APK
 
-Na pasta `andoid/Maze`, corre:
+Na pasta `android/Maze`, corre:
 
 ```powershell
 .\gradlew.bat assembleDebug
@@ -91,7 +91,7 @@ Deves ver um device em estado `device`.
 
 ### 5.4 Instalar a app no emulador
 
-Na pasta `andoid/Maze`, corre:
+Na pasta `android/Maze`, corre:
 
 ```powershell
 .\build-and-install.ps1
@@ -175,7 +175,7 @@ O projeto inclui scripts PowerShell para tornar o arranque modular:
 3. Corre o script:
 
 ```powershell
-cd andoid\Maze
+cd android\Maze
 .\scripts\launch-emulator.ps1
 ```
 
@@ -193,7 +193,7 @@ Se quiseres indicar um AVD específico:
 4. Corre o script:
 
 ```powershell
-cd andoid\Maze
+cd android\Maze
 .\scripts\launch-phone.ps1
 ```
 
@@ -206,7 +206,7 @@ Se houver mais do que um device ligado, indica o ID manualmente:
 ## 11. Comandos rápidos
 
 ```powershell
-cd andoid\Maze
+cd android\Maze
 .\gradlew.bat assembleDebug
 adb devices
 .\build-and-install.ps1
