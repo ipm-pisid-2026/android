@@ -38,7 +38,7 @@ public class MazeLoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         etDatabase = findViewById(R.id.etDatabase);
-        //etTeam = findViewById(R.id.etTeam);
+        // etTeam = findViewById(R.id.etTeam);
         btnConnect = findViewById(R.id.btnConnect);
 
         appProperties = AppProperties.load(this);
@@ -77,20 +77,26 @@ public class MazeLoginActivity extends AppCompatActivity {
         uriBuilder.appendQueryParameter("database", database);
         String requestUrl = uriBuilder.build().toString();
 
-
         Log.d("MazeLoginDebug", "GET URL: " + requestUrl);
 
-
         Request request = new Request.Builder()
-            .url(requestUrl)
+                .url(requestUrl)
                 .get()
                 .build();
+
+        // Final copies for lambda use
+        final String hostFinal = host;
+        final String usernameFinal = username;
+        final String passwordFinal = password;
+        final String databaseFinal = database;
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(MazeLoginActivity.this, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                //Log.e("MazeLogin", "Erro na requisição: " + e.getMessage());
+                runOnUiThread(() -> Toast
+                        .makeText(MazeLoginActivity.this, "Erro de conexão: " + e.getMessage(), Toast.LENGTH_LONG)
+                        .show());
+                // Log.e("MazeLogin", "Erro na requisição: " + e.getMessage());
                 Log.e("MazeLoginDebug", "Falha total na requisição", e); // O 'e' no final imprime o erro completo
             }
 
@@ -107,27 +113,32 @@ public class MazeLoginActivity extends AppCompatActivity {
                         if (success) {
                             String idGrupo = jsonResponse.getString("IDGrupo");
                             runOnUiThread(() -> {
-                                //etTeam.setText(idGrupo);
-                                Toast.makeText(MazeLoginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+                                // etTeam.setText(idGrupo);
+                                Toast.makeText(MazeLoginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT)
+                                        .show();
                                 Intent intent = new Intent(MazeLoginActivity.this, MainActivity.class);
                                 intent.putExtra("IDGrupo", idGrupo);
-                                intent.putExtra("host", host);
-                                intent.putExtra("database", database);
-                                intent.putExtra("username", username);
-                                intent.putExtra("password", password);
+                                intent.putExtra("host", hostFinal);
+                                intent.putExtra("database", databaseFinal);
+                                intent.putExtra("username", usernameFinal);
+                                intent.putExtra("password", passwordFinal);
                                 startActivity(intent);
                                 finish();
                             });
                         } else {
                             String message = jsonResponse.getString("message");
-                            runOnUiThread(() -> Toast.makeText(MazeLoginActivity.this, message, Toast.LENGTH_LONG).show());
+                            runOnUiThread(
+                                    () -> Toast.makeText(MazeLoginActivity.this, message, Toast.LENGTH_LONG).show());
                         }
                     } catch (JSONException e) {
                         Log.e("MazeLogin", "Erro ao parsear JSON: " + e.getMessage());
-                        runOnUiThread(() -> Toast.makeText(MazeLoginActivity.this, "Erro no formato da resposta do servidor.", Toast.LENGTH_LONG).show());
+                        runOnUiThread(() -> Toast.makeText(MazeLoginActivity.this,
+                                "Erro no formato da resposta do servidor.", Toast.LENGTH_LONG).show());
                     }
                 } else {
-                    runOnUiThread(() -> Toast.makeText(MazeLoginActivity.this, "Erro do servidor: " + response.code(), Toast.LENGTH_LONG).show());
+                    runOnUiThread(() -> Toast
+                            .makeText(MazeLoginActivity.this, "Erro do servidor: " + response.code(), Toast.LENGTH_LONG)
+                            .show());
                 }
             }
         });
